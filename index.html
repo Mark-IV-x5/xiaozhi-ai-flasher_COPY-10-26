@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>XIAOZHI AI Voice Assistant</title>
+
+  <script
+    type="module"
+    src="https://unpkg.com/esp-web-tools@9/dist/web/install-button.js?module">
+  </script>
+
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #171923;
+      --border: #262b38;
+      --text: #f5f7fa;
+      --muted: #9ca3af;
+      --primary1: #4f46e5;
+      --primary2: #7c3aed;
+      --hover1: #5b52f0;
+      --hover2: #8b45ff;
+      --shadow: rgba(0, 0, 0, 0.25);
+      --warning: #f59e0b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top, #1b1f2c 0%, var(--bg) 45%);
+      color: var(--text);
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: auto;
+      padding: 32px 20px 60px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 0 30px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(79, 70, 229, 0.15);
+      color: #c7d2fe;
+      font-size: 14px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(99, 102, 241, 0.25);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 14px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 720px;
+      margin: auto;
+      font-size: 1.05rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+
+    .card h2 {
+      font-size: 1.15rem;
+      margin-bottom: 16px;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    ul {
+      padding-left: 18px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    .flash-section {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .flash-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px 24px;
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+
+    .flash-box h2 {
+      margin-bottom: 14px;
+      font-size: 1.7rem;
+    }
+
+    .flash-box p {
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    /* IMPORTANT:
+       Styling the REAL ESP Web Tools button
+       without breaking functionality
+    */
+
+    esp-web-install-button::part(button) {
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary1),
+          var(--primary2)
+        );
+      color: white;
+      border: none;
+      border-radius: 14px;
+      padding: 16px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+      box-shadow:
+        0 8px 20px rgba(79, 70, 229, 0.25);
+      min-width: 240px;
+    }
+
+    esp-web-install-button::part(button):hover {
+      transform: translateY(-1px);
+      background:
+        linear-gradient(
+          135deg,
+          var(--hover1),
+          var(--hover2)
+        );
+      box-shadow:
+        0 10px 24px rgba(79, 70, 229, 0.35);
+    }
+
+    esp-web-install-button::part(button):active {
+      transform: translateY(0);
+    }
+
+    .warning {
+      margin-top: 24px;
+      padding: 16px;
+      border-radius: 14px;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      color: #fcd34d;
+      font-size: 0.95rem;
+    }
+
+    .tutorial-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 22px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: white;
+      background: #232838;
+      border: 1px solid #30384d;
+      transition: background 0.18s ease;
+      font-weight: 500;
+    }
+
+    .tutorial-btn:hover {
+      background: #2c3346;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      color: #6b7280;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 768px) {
+      .flash-box {
+        padding: 30px 18px;
+      }
+
+      esp-web-install-button::part(button) {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <section class="hero">
+      <div class="badge">
+        ESP32-S3 Firmware Installer
+      </div>
+
+      <h1>XIAOZHI AI Voice Assistant</h1>
+
+      <p class="subtitle">
+        Flash firmware directly from your browser using ESP Web Tools.
+        No desktop software required.
+      </p>
+    </section>
+
+    <section class="flash-section">
+
+      <div class="flash-box">
+
+        <h2>Flash Firmware</h2>
+
+        <p>
+          Connect your ESP32-S3 board using USB,
+          then click the button below.
+        </p>
+
+        <!-- REAL WORKING ESP WEB TOOLS BUTTON -->
+
+        <esp-web-install-button manifest="manifest.json">
+          <button slot="activate">
+            Flash Firmware
+          </button>
+        </esp-web-install-button>
+
+        <div class="warning">
+          Use Chrome or Microsoft Edge on desktop for best compatibility.
+        </div>
+
+        <a
+          class="tutorial-btn"
+          href="https://youtu.be/wzYkzo-9ijo?si=LRWEz5p3wK4C8KK9"
+          target="_blank">
+          Watch Tutorial Video
+        </a>
+
+      </div>
+
+    </section>
+
+    <section class="card-grid">
+
+      <div class="card">
+        <h2>Supported Board</h2>
+
+        <ul>
+          <li>ESP32-S3</li>
+          <li>USB Flashing Supported</li>
+          <li>Chrome & Edge Compatible</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Installation Steps</h2>
+
+        <ul>
+          <li>Connect ESP32-S3 via USB</li>
+          <li>Click Flash Firmware</li>
+          <li>Select Serial Port</li>
+          <li>Install firmware</li>
+          <li>Wait until complete</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Troubleshooting</h2>
+
+        <ul>
+          <li>Use a data USB cable</li>
+          <li>Close Serial Monitor apps</li>
+          <li>Install USB drivers if needed</li>
+          <li>Try another USB port</li>
+          <li>Use manual boot mode if required</li>
+        </ul>
+      </div>
+
+    </section>
+
+    <footer>
+      © 2026 techiesms • XIAOZHI AI Voice Assistant
+    </footer>
+
+  </div>
+
+</body>
+
+</html>
